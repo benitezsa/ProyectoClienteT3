@@ -1,0 +1,17 @@
+package entidad;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class Categoria {
+
+	private int idCategoria;
+	private String nombre;
+
+	@Override
+	public String toString() {
+		return nombre;
+	}
+}
