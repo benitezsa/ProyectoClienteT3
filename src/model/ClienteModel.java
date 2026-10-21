@@ -129,6 +129,96 @@ public class ClienteModel {
 			}
 		}
 
-		return lista;
-	}
+        return lista;
+    }
+
+    public int actualizaCliente(Cliente obj) {
+
+        int salida = -1;
+
+        Connection conn = null;
+        PreparedStatement pstm = null;
+
+        try {
+
+            conn = MySqlDBConexion.getConexion();
+
+            String sql = "UPDATE cliente SET nombre=?, dni=?, fechaRegistro=?, "
+                    + "estado=?, idCategoria=?, apellido=?, telefono=?, "
+                    + "correo=?, direccion=? WHERE idCliente=?";
+
+            pstm = conn.prepareStatement(sql);
+
+            pstm.setString(1, obj.getNombre());
+            pstm.setString(2, obj.getDni());
+            pstm.setString(3, obj.getFechaRegistro());
+            pstm.setInt(4, obj.getEstado());
+            pstm.setInt(5, obj.getIdCategoria());
+            pstm.setString(6, obj.getApellido());
+            pstm.setString(7, obj.getTelefono());
+            pstm.setString(8, obj.getCorreo());
+            pstm.setString(9, obj.getDireccion());
+            pstm.setInt(10, obj.getIdCliente());
+
+            salida = pstm.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+
+            try {
+
+                if (pstm != null)
+                    pstm.close();
+
+                if (conn != null)
+                    conn.close();
+
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return salida;
+    }
+
+    public int eliminaCliente(int idCliente) {
+
+        int salida = -1;
+
+        Connection conn = null;
+        PreparedStatement pstm = null;
+
+        try {
+
+            conn = MySqlDBConexion.getConexion();
+
+            String sql = "DELETE FROM cliente WHERE idCliente=?";
+
+            pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, idCliente);
+
+            salida = pstm.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
+
+            try {
+
+                if (pstm != null)
+                    pstm.close();
+
+                if (conn != null)
+                    conn.close();
+
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+
+        return salida;
+    }
 }
